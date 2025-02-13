@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "4wo2b9Bwlcc=",
+  "dgSpecHash": "EZ/ZfpQ4Ojs=",
   "success": true,
   "projectFilePath": "/Users/bartek/RiderProjects/car-rental-api/car-rental-api/car-rental-api.csproj",
   "expectedPackageFiles": [
     "/Users/bartek/.nuget/packages/microsoft.aspnetcore.openapi/9.0.0/microsoft.aspnetcore.openapi.9.0.0.nupkg.sha512",
-    "/Users/bartek/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+    "/Users/bartek/.nuget/packages/microsoft.openapi/1.6.22/microsoft.openapi.1.6.22.nupkg.sha512",
+    "/Users/bartek/.nuget/packages/swashbuckle.aspnetcore.swagger/7.2.0/swashbuckle.aspnetcore.swagger.7.2.0.nupkg.sha512",
+    "/Users/bartek/.nuget/packages/swashbuckle.aspnetcore.swaggergen/7.2.0/swashbuckle.aspnetcore.swaggergen.7.2.0.nupkg.sha512",
+    "/Users/bartek/.nuget/packages/swashbuckle.aspnetcore.swaggerui/7.2.0/swashbuckle.aspnetcore.swaggerui.7.2.0.nupkg.sha512"
   ],
   "logs": []
 }

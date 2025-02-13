@@ -31,3 +31,7 @@
 /Users/bartek/RiderProjects/car-rental-api/car-rental-api/obj/Debug/net9.0/car-rental-api.pdb
 /Users/bartek/RiderProjects/car-rental-api/car-rental-api/obj/Debug/net9.0/car-rental-api.genruntimeconfig.cache
 /Users/bartek/RiderProjects/car-rental-api/car-rental-api/obj/Debug/net9.0/ref/car-rental-api.dll
+/Users/bartek/RiderProjects/car-rental-api/car-rental-api/obj/Debug/net9.0/car-rental-api.sourcelink.json
+/Users/bartek/RiderProjects/car-rental-api/car-rental-api/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/bartek/RiderProjects/car-rental-api/car-rental-api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/bartek/RiderProjects/car-rental-api/car-rental-api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
