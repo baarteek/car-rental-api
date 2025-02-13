@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "DtYgcAZsY/kFw0S0I/a74JZ3Io4URN9LCxH6bYTWRHI=",
+  "Source": "car-rental-api",
+  "BasePath": "_content/car-rental-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
