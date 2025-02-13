@@ -1,10 +1,48 @@
+using System.Text;
 using car_rental_api.Data;
+using car_rental_api.Models;
 using car_rental_api.Repositories.Implementations;
 using car_rental_api.Repositories.Interfaces;
+using car_rental_api.Services.Implementations;
+using car_rental_api.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Identity configuration
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+// JWT Authentication
+var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"] ?? string.Empty);
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
+// Authorization
+builder.Services.AddAuthentication();
 
 builder.Services.AddControllers();
 
@@ -27,6 +65,9 @@ builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
 
+// Services
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -39,6 +80,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
