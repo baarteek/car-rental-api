@@ -1,4 +1,6 @@
 using car_rental_api.Data;
+using car_rental_api.Repositories.Implementations;
+using car_rental_api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -14,10 +16,16 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddAuthorization();
 
-Console.WriteLine("Connection String: " + builder.Configuration.GetConnectionString("DefaultConnection"));
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Repositories
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IRentalRepository, RentalRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
 
 var app = builder.Build();
 

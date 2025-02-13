@@ -1,5 +1,7 @@
 bin/
 obj/
+bin/Debug/
+bin/Release/
 
 *.dll
 *.exe
@@ -8,6 +10,8 @@ obj/
 *.pdb
 *.cache
 *.log
+
+.DS_Store
 
 .vscode/
 .idea/
