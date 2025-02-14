@@ -3,6 +3,7 @@ using car_rental_api.Data;
 using car_rental_api.Models;
 using car_rental_api.Repositories.Implementations;
 using car_rental_api.Repositories.Interfaces;
+using car_rental_api.Services;
 using car_rental_api.Services.Implementations;
 using car_rental_api.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -67,6 +68,7 @@ builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
 
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 var app = builder.Build();
 
