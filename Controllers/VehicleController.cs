@@ -25,9 +25,7 @@ public class VehicleController : ControllerBase
         {
             VehicleDto? vehicleDto = await _vehicleService.GetVehicleByIdAsync(id);
             if (vehicleDto is null)
-            {
-                return NotFound(new { message = $"Vehicle with {id} not found." });
-            }
+                return NotFound(new { message = $"Vehicle with ID {id} not found." });
             return Ok(vehicleDto);
         }
         catch (Exception ex)
@@ -44,9 +42,7 @@ public class VehicleController : ControllerBase
         {
             List<VehicleDto>? vehicleDtos = await _vehicleService.GetVehiclesAsync();
             if (vehicleDtos is null)
-            {
                 return NotFound(new { message = "Vehicles not found." });
-            }
             return Ok(vehicleDtos);
         }
         catch (Exception ex)
@@ -76,7 +72,9 @@ public class VehicleController : ControllerBase
     {
         try
         {
-            VehicleDto updatedVehicle = await _vehicleService.UpdateVehicleAsync(vehicleEditDto);
+            VehicleDto? updatedVehicle = await _vehicleService.UpdateVehicleAsync(id, vehicleEditDto);
+            if (updatedVehicle is null)
+                return NotFound(new { message = $"Vehicle with {id} not found." });
             return Ok(updatedVehicle);
         }
         catch (Exception ex)
@@ -92,7 +90,7 @@ public class VehicleController : ControllerBase
         try
         {
             await _vehicleService.DeleteVehicleAsync(id);
-            return Ok(new { message = "Data was deleted successfully" });
+            return Ok(new { message = $"Vehicle with ID {id} deleted." });
         }
         catch (Exception ex)
         {

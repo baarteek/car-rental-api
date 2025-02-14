@@ -4,7 +4,7 @@ using car_rental_api.Repositories.Implementations;
 using car_rental_api.Repositories.Interfaces;
 using car_rental_api.Services.Interfaces;
 
-namespace car_rental_api.Services;
+namespace car_rental_api.Services.Implementations;
 
 public class VehicleService : IVehicleService
 {
@@ -17,11 +17,8 @@ public class VehicleService : IVehicleService
     
     public async Task<VehicleDto?> GetVehicleByIdAsync(Guid id)
     {
-        var vehicle = await _vehicleRepository.GetByIdAsync(id);
-        if (vehicle is null)
-        {
-            throw new Exception($"Vehicle with id {id} not found");
-        }
+        Vehicle? vehicle = await _vehicleRepository.GetByIdAsync(id); 
+        if (vehicle is null) return null;
 
         return new VehicleDto
         {
@@ -99,20 +96,21 @@ public class VehicleService : IVehicleService
         };
     }
 
-    public async Task<VehicleDto> UpdateVehicleAsync(VehicleEditDto vehicleEditDto)
+    public async Task<VehicleDto?> UpdateVehicleAsync(Guid id, VehicleEditDto vehicleEditDto)
     {
-        Vehicle vehicle = new Vehicle
-        {
-            Brand = vehicleEditDto.Brand,
-            Model = vehicleEditDto.Model,
-            YearOfManufacture = vehicleEditDto.YearOfManufacture,
-            RegistrationNumber = vehicleEditDto.RegistrationNumber,
-            PricePerDay = vehicleEditDto.PricePerDay,
-            Mileage = vehicleEditDto.Mileage,
-            NumberOfSeats = vehicleEditDto.NumberOfSeats,
-            EngineCapacity = vehicleEditDto.EngineCapacity,
-            EnginePower = vehicleEditDto.EnginePower,
-        };
+        Vehicle? vehicle = await _vehicleRepository.GetByIdAsync(id);
+        if(vehicle is null) return null;
+        
+        vehicle.Brand = vehicleEditDto.Brand;
+        vehicle.Model = vehicleEditDto.Model;
+        vehicle.YearOfManufacture = vehicleEditDto.YearOfManufacture;
+        vehicle.RegistrationNumber = vehicleEditDto.RegistrationNumber;
+        vehicle.PricePerDay = vehicleEditDto.PricePerDay;
+        vehicle.Mileage = vehicleEditDto.Mileage;
+        vehicle.NumberOfSeats = vehicleEditDto.NumberOfSeats;
+        vehicle.EngineCapacity = vehicleEditDto.EngineCapacity;
+        vehicle.EnginePower = vehicleEditDto.EnginePower;
+        
         await _vehicleRepository.UpdateAsync(vehicle);
         
         return new VehicleDto

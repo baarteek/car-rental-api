@@ -129,6 +129,7 @@ builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
+builder.Services.AddScoped<IInsuranceService, InsuranceService>();
 
 var app = builder.Build();
 
