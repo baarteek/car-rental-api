@@ -21,7 +21,12 @@ public class AuthService : IAuthService
     
     public async Task<IdentityResult> RegisterUserAsync(User user, string password)
     {
-        return await _userManager.CreateAsync(user, password);
+        var result = await _userManager.CreateAsync(user, password);
+        if (result.Succeeded)
+        {
+            await _userManager.AddToRoleAsync(user, "User");
+        }
+        return result;
     }
 
     public async Task<string?> LoginUserAsync(string email, string password)
@@ -30,18 +35,25 @@ public class AuthService : IAuthService
         if (user is null || !await _userManager.CheckPasswordAsync(user, password))
             return null;
 
-        return GenerateJwtToken(user);
+        return await GenerateJwtToken(user);
     }
 
-    private string GenerateJwtToken(User user)
+    private async Task<string> GenerateJwtToken(User user)
     {
         var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!);
+
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Email, user.Email!),
             new Claim(ClaimTypes.Name, user.UserName!)
         };
+        
+        var roles = await _userManager.GetRolesAsync(user);
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));  
+        }
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {

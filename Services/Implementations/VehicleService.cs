@@ -15,7 +15,7 @@ public class VehicleService : IVehicleService
         _vehicleRepository = vehicleRepository;
     }
     
-    public async Task<VehicleDto> GetVehicleByIdAsync(Guid id)
+    public async Task<VehicleDto?> GetVehicleByIdAsync(Guid id)
     {
         var vehicle = await _vehicleRepository.GetByIdAsync(id);
         if (vehicle is null)
@@ -30,6 +30,7 @@ public class VehicleService : IVehicleService
             Model = vehicle.Model,
             YearOfManufacture = vehicle.YearOfManufacture,
             RegistrationNumber = vehicle.RegistrationNumber,
+            Status = vehicle.Status.ToString(),
             PricePerDay = vehicle.PricePerDay,
             Mileage = vehicle.Mileage,
             NumberOfSeats = vehicle.NumberOfSeats,
@@ -38,7 +39,7 @@ public class VehicleService : IVehicleService
         };
     }
 
-    public async Task<List<VehicleDto>> GetVehiclesAsync()
+    public async Task<List<VehicleDto>?> GetVehiclesAsync()
     {
         List<Vehicle> vehicles = await _vehicleRepository.GetAllAsync();
         List <VehicleDto> vehicleDtos = new List<VehicleDto>();
@@ -46,11 +47,12 @@ public class VehicleService : IVehicleService
         {
             VehicleDto vehicleDto = new VehicleDto
             {
-
+                Id = vehicle.Id,
                 Brand = vehicle.Brand,
                 Model = vehicle.Model,
                 YearOfManufacture = vehicle.YearOfManufacture,
                 RegistrationNumber = vehicle.RegistrationNumber,
+                Status = vehicle.Status.ToString(),
                 PricePerDay = vehicle.PricePerDay,
                 Mileage = vehicle.Mileage,
                 NumberOfSeats = vehicle.NumberOfSeats,
@@ -62,29 +64,45 @@ public class VehicleService : IVehicleService
         return vehicleDtos;
     }
 
-    public Task AddVehicleAsync(VehicleEditDto vehicleEditDto)
+    public async Task<VehicleDto> AddVehicleAsync(VehicleEditDto vehicleEditDto)
     {
         Vehicle vehicle = new Vehicle
         {
-            Id = vehicleEditDto.Id,
+            Id = Guid.NewGuid(),
             Brand = vehicleEditDto.Brand,
             Model = vehicleEditDto.Model,
             YearOfManufacture = vehicleEditDto.YearOfManufacture,
             RegistrationNumber = vehicleEditDto.RegistrationNumber,
+            Status = vehicleEditDto.Status,
             PricePerDay = vehicleEditDto.PricePerDay,
             Mileage = vehicleEditDto.Mileage,
             NumberOfSeats = vehicleEditDto.NumberOfSeats,
             EngineCapacity = vehicleEditDto.EngineCapacity,
             EnginePower = vehicleEditDto.EnginePower,
         };
-        return _vehicleRepository.AddAsync(vehicle);
+        
+        await _vehicleRepository.AddAsync(vehicle);
+
+        return new VehicleDto
+        {
+            Id = vehicle.Id,
+            Brand = vehicle.Brand,
+            Model = vehicle.Model,
+            YearOfManufacture = vehicle.YearOfManufacture,
+            RegistrationNumber = vehicle.RegistrationNumber,
+            Status = vehicle.Status.ToString(),
+            PricePerDay = vehicle.PricePerDay,
+            Mileage = vehicle.Mileage,
+            NumberOfSeats = vehicle.NumberOfSeats,
+            EngineCapacity = vehicle.EngineCapacity,
+            EnginePower = vehicle.EnginePower,
+        };
     }
 
-    public Task UpdateVehicleAsync(VehicleEditDto vehicleEditDto)
+    public async Task<VehicleDto> UpdateVehicleAsync(VehicleEditDto vehicleEditDto)
     {
         Vehicle vehicle = new Vehicle
         {
-            Id = vehicleEditDto.Id,
             Brand = vehicleEditDto.Brand,
             Model = vehicleEditDto.Model,
             YearOfManufacture = vehicleEditDto.YearOfManufacture,
@@ -95,7 +113,22 @@ public class VehicleService : IVehicleService
             EngineCapacity = vehicleEditDto.EngineCapacity,
             EnginePower = vehicleEditDto.EnginePower,
         };
-        return _vehicleRepository.UpdateAsync(vehicle);
+        await _vehicleRepository.UpdateAsync(vehicle);
+        
+        return new VehicleDto
+        {
+            Id = vehicle.Id,
+            Brand = vehicle.Brand,
+            Model = vehicle.Model,
+            YearOfManufacture = vehicle.YearOfManufacture,
+            RegistrationNumber = vehicle.RegistrationNumber,
+            Status = vehicle.Status.ToString(),
+            PricePerDay = vehicle.PricePerDay,
+            Mileage = vehicle.Mileage,
+            NumberOfSeats = vehicle.NumberOfSeats,
+            EngineCapacity = vehicle.EngineCapacity,
+            EnginePower = vehicle.EnginePower,
+        };
     }
 
     public async Task DeleteVehicleAsync(Guid id)

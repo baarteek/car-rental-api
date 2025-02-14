@@ -30,4 +30,7 @@ public class Vehicle
     public double EngineCapacity { get; set; }
     [Range(1, 2000, ErrorMessage = "Engine power must be between 1 and 2000 HP.")]
     public int EnginePower { get; set; }
+    [StringLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
+    public string? ImagePath { get; set; }
+
 }

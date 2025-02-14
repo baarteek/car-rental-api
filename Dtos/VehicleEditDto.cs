@@ -5,7 +5,6 @@ namespace car_rental_api.Dtos;
 
 public class VehicleEditDto
 {
-    public Guid Id { get; set; }
     [Required]
     [StringLength(50, MinimumLength = 2, ErrorMessage = "Vehicle Name must be between 2 and 50 characters")]
     public required string Brand { get; set; }
